@@ -6,6 +6,22 @@
     <v-row>
       <Basket :products="basket" />
     </v-row>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
 </v-container>
 </template>
 
@@ -34,11 +50,15 @@ export default {
           id: 1
         }
       ],
-      basket: []
+      basket: [],
+      snackbar: false,
+      snackbarText: ""
     };
   },
   methods: {
     productAdded(productId) {
+      this.snackbar = true
+      this.snackbarText = this.products[productId].name + " has been added to your basket"
       this.basket.push(this.products[productId])
     }
   }
